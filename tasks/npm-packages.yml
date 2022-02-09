@@ -1,0 +1,11 @@
+- name: Install yarn
+  npm:
+    name: yarn
+    global: yes
+
+- name: Install tldr
+  npm:
+    name: tldr
+    global: yes
+  tags: 
+    - zsh

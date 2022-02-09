@@ -1,0 +1,15 @@
+- name: 52 Fitness exists
+  stat:
+    path: "{{ personal }}/harpoon"
+  register: harpoon
+  
+- name: Personal Project 52 Fitness
+  ansible.builtin.git:
+    repo: 'git@github.com:r.walter215/fifty-two-fitness.git'
+    bare: true
+    dest: "{{ personal }}/fifty-two-fitness"
+  when: harpoon.stat.exists == False
+
+- name: 52 Fitness Develop Checkout
+  shell: cd ~/personal/fifty-two-fitness && git fetch && git worktree add develop develop
+  when: harpoon.stat.exists == False

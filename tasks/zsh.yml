@@ -1,0 +1,39 @@
+- name: Install zsh
+  apt: name=zsh
+  become: true
+  tags: 
+    - zsh
+
+- name: Change shell to zsh
+  shell: chsh -s $(which zsh)
+  become: true
+  tags: 
+    - zsh
+
+- name: Symlink zsh dotfiles
+  shell: stow -d ~/.dotfiles/ -t ~/ zsh
+  tags: 
+    - zsh
+
+- name: Create .zsh/ directory
+  file:
+    path: ~/.zsh
+    state: directory
+  tags: 
+    - zsh
+
+- name: Install antigen
+  uri:  
+    url: 'https://git.io/antigen'
+    dest: '~/.zsh'
+    follow_redirects: all
+  tags: 
+    - zsh
+
+- name: Install Hack font
+  become: yes
+  uri: 
+    url: 'https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf'
+    creates: '~/.local/share/fonts/Fira Code Regular Nerd Font Complete.ttf'
+  tags: 
+    - zsh
